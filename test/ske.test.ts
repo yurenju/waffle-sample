@@ -1,6 +1,7 @@
-const { use, expect } = require("chai");
-const { solidity, MockProvider, deployContract } = require("ethereum-waffle");
-const Token = require("../build/SKEToken.json");
+import { use, expect } from "chai";
+import { solidity, MockProvider, deployContract } from "ethereum-waffle";
+import SKETokenArtifact from "../build/SKEToken.json";
+import { SKEToken } from "../types/ethers-contracts/SKEToken";
 
 use(solidity);
 
@@ -9,7 +10,9 @@ describe("Counter smart contract", () => {
   const [wallet] = provider.getWallets();
 
   async function deployToken(initialValue: string) {
-    const token = await deployContract(wallet, Token, [initialValue]);
+    const token = (await deployContract(wallet, SKETokenArtifact, [
+      initialValue
+    ])) as SKEToken;
     return token;
   }
 
